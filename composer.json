@@ -1,7 +1,9 @@
 {
     "require": {
         "easyswoole/easyswoole": "3.x",
-        "easyswoole/orm": "^1.2"
+        "easyswoole/orm": "^1.2",
+        "easyswoole/policy": "^1.0",
+        "easyswoole/words-match": "^1.0"
     },
     "autoload": {
         "psr-4": {

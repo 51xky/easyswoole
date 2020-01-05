@@ -1,5 +1,9 @@
 <?php
-include_once '/xky/easy/vendor/autoload.php';
+defined('IN_PHAR') or define('IN_PHAR', boolval(\Phar::running(false)));
+defined('EASYSWOOLE_ROOT') or define('EASYSWOOLE_ROOT', IN_PHAR ? \Phar::running() : realpath(getcwd()));
+
+$file = EASYSWOOLE_ROOT.'/vendor/autoload.php';
+include_once $file;
 use Swoole\Coroutine as co;
 
 go(function (){

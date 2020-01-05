@@ -15,8 +15,8 @@ return [
         'SOCK_TYPE' => SWOOLE_TCP,
         'RUN_MODEL' => SWOOLE_PROCESS,
         'SETTING' => [
-            'worker_num' => 8,
-            'reload_async' => true,
+            'worker_num' => 8,// 运行的 worker 进程数量
+            'reload_async' => true,// 设置异步重启开关。设置为true时，将启用异步安全重启特性，Worker进程会等待异步事件完成后再退出。
             'max_wait_time'=>3
         ],
         'TASK'=>['workerNum'=>4,'maxRunningNum'=>128,'timeout'=>15]

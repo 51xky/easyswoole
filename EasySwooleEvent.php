@@ -15,6 +15,8 @@ use EasySwoole\Http\Request;
 use EasySwoole\Http\Response;
 use EasySwoole\ORM\Db\Connection;
 use EasySwoole\ORM\DbManager;
+use EasySwoole\WordsMatch\Exception\RuntimeError;
+use EasySwoole\WordsMatch\WordsMatchServer;
 
 class EasySwooleEvent implements Event
 {
@@ -28,6 +30,19 @@ class EasySwooleEvent implements Event
     {
         $config = new \EasySwoole\ORM\Db\Config(Config::getInstance()->getConf('MYSQL'));
         DbManager::getInstance()->addConnection(new Connection($config));
+        try{
+            WordsMatchServer::getInstance()
+                ->setMaxMem('1024M') // 每个进程最大内存
+                ->setProcessNum(1) // 设置进程数量
+                ->setServerName('Easyswoole words-match')// 服务名称
+                ->setTempDir(EASYSWOOLE_TEMP_DIR)// temp地址
+                ->setWordsMatchPath(EASYSWOOLE_ROOT.'/WordsMatch/')
+                ->setDefaultWordBank('comment.txt')// 服务启动时默认导入的词库文件路径
+                ->setSeparator(',')// 词和其它信息分隔符
+                ->attachToServer(ServerManager::getInstance()->getSwooleServer());
+        }catch(RuntimeError $e){
+        }catch(\Exception $e){
+        }
     }
 
     public static function onRequest(Request $request, Response $response): bool
