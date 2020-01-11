@@ -33,7 +33,7 @@ class EasySwooleEvent implements Event
         try{
             WordsMatchServer::getInstance()
                 ->setMaxMem('1024M') // 每个进程最大内存
-                ->setProcessNum(1) // 设置进程数量
+                ->setProcessNum(3) // 设置进程数量
                 ->setServerName('Easyswoole words-match')// 服务名称
                 ->setTempDir(EASYSWOOLE_TEMP_DIR)// temp地址
                 ->setWordsMatchPath(EASYSWOOLE_ROOT.'/WordsMatch/')
