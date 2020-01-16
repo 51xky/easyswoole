@@ -4,7 +4,9 @@
         "easyswoole/orm": "^1.2",
         "easyswoole/policy": "^1.0",
         "easyswoole/words-match": "^1.0",
-        "easyswoole/jwt": "^1.0"
+        "easyswoole/jwt": "^1.0",
+        "league/oauth2-server": "^8.0",
+        "easyswoole/atomic-limit": "^1.0"
     },
     "autoload": {
         "psr-4": {

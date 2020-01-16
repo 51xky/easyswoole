@@ -9,6 +9,7 @@
 namespace EasySwoole\EasySwoole;
 
 
+use EasySwoole\AtomicLimit\AtomicLimit;
 use EasySwoole\EasySwoole\Swoole\EventRegister;
 use EasySwoole\EasySwoole\AbstractInterface\Event;
 use EasySwoole\Http\Request;
@@ -30,6 +31,8 @@ class EasySwooleEvent implements Event
     {
         $config = new \EasySwoole\ORM\Db\Config(Config::getInstance()->getConf('MYSQL'));
         DbManager::getInstance()->addConnection(new Connection($config));
+
+        // 关键词进程
         try{
             WordsMatchServer::getInstance()
                 ->setMaxMem('1024M') // 每个进程最大内存
@@ -43,6 +46,13 @@ class EasySwooleEvent implements Event
         }catch(RuntimeError $e){
         }catch(\Exception $e){
         }
+
+        // 限流器
+        AtomicLimit::getInstance()->addItem('JsonWebToken')->setMax(5);// 5秒内最大流量为5
+        AtomicLimit::getInstance()->addItem('api')->setMax(2);
+        // 创建一个进程，等同于定时任务使计数器归0
+        AtomicLimit::getInstance()->enableProcessAutoRestore(ServerManager::getInstance()->getSwooleServer(),10000);
+
     }
 
     public static function onRequest(Request $request, Response $response): bool
